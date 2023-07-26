@@ -1,0 +1,19 @@
+{
+  "name": "graphql-mysql-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@grafbase/sdk": "~0.1.0"
+  },
+  "dependencies": {
+    "@planetscale/database": "^1.8.0",
+    "graphql": "^16.7.1"
+  }
+}

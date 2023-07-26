@@ -1,0 +1,45 @@
+import { connect } from "@planetscale/database";
+import { GraphQLError } from "graphql";
+
+import { config, options } from "../../lib";
+
+const conn = connect(config);
+
+export default async function ProductsDelete(_, { by }) {
+  let statement: string = "";
+  let params: (string | number | boolean | {})[] = [];
+
+  Object.entries(by).forEach(([field, value]) => {
+    if (
+      value !== undefined &&
+      value !== null &&
+      (typeof value === "string" || typeof value === "number")
+    ) {
+      statement = `DELETE FROM products WHERE ${field} = ?`;
+      params = [value];
+    }
+  });
+
+  if (!statement) {
+    throw new GraphQLError("ID or Slug must be provided.");
+  }
+
+  try {
+    const results = await conn.execute(statement, params, options);
+
+    if (results.rowsAffected === 1) {
+      return {
+        deleted: true,
+      };
+    }
+
+    return {
+      deleted: false,
+    };
+  } catch (err) {
+    console.log(err);
+    return {
+      deleted: false,
+    };
+  }
+}
